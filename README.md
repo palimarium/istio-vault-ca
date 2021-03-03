@@ -1,0 +1,1 @@
+# istio-vault-ca
