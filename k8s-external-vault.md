@@ -165,3 +165,10 @@ $ vault write auth/kube-demo-cluster-2/role/issuer-istio-ca2 \
 ````
 
 The role connects the Kubernetes service account, vault-issuer, and namespace, istio-system, with the Vault policy, pki-istio-ca. The tokens returned after authentication are valid for 20 minutes.
+
+<br>  
+
+# References
+
+- Integrate a Kubernetes Cluster with an External Vault[1] (https://learn.hashicorp.com/tutorials/vault/kubernetes-external-vault)
+- Kubernetes Auth Method [2] (https://www.vaultproject.io/docs/auth/kubernetes)
