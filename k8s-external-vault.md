@@ -8,8 +8,8 @@ This guide will refer to two clusters: `cluster1` and `cluster2`. The following 
 
 | Variable      | Description |
 | ----------- | ----------- |
-| CTX_CLUSTER1      | The context name in the default Kubernetes configuration file used for accessing the cluster1.       |
-| CTX_CLUSTER2   | Te	The context name in the default Kubernetes configuration file used for accessing the cluster2.       |
+| CTX_CLUSTER1   | The context name in the default Kubernetes configuration file used for accessing the cluster1.       |
+| CTX_CLUSTER2   | The context name in the default Kubernetes configuration file used for accessing the cluster2.       |
 
 <br>
 
@@ -63,13 +63,10 @@ subjects:
     namespace: default
 EOF
 ````
-> run the same also in `cluster2` by changing the context to `--context="${CTX_CLUSTER2}"` <br>
+> run the same also in `cluster2` by changing the context to: `--context="${CTX_CLUSTER2}"` <br>
 
 This creates the vault-auth service account, the vault-auth secret, and the ClusterRoleBinding that uses the created service account.
 
-
-
-<br>
 <br>
 
 # Configure Kubernetes authentication
@@ -78,7 +75,6 @@ Vault provides a Kubernetes authentication method that enables clients to authen
 
 <br>
 Enable the Kubernetes authentication method.
-
 
 
 ```bash
@@ -90,7 +86,6 @@ $ vault auth enable --path="kube-demo-cluster-2" kubernetes
 Success! Enabled kubernetes auth method at: kube-demo-cluster-2/
 
 ````
-
 _____________
 
 <br>
