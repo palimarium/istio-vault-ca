@@ -170,5 +170,5 @@ The role connects the Kubernetes service account, vault-issuer, and namespace, i
 
 # References
 
-- Integrate a Kubernetes Cluster with an External Vault[1] (https://learn.hashicorp.com/tutorials/vault/kubernetes-external-vault)
-- Kubernetes Auth Method [2] (https://www.vaultproject.io/docs/auth/kubernetes)
+- [Integrate a Kubernetes Cluster with an External Vault](https://learn.hashicorp.com/tutorials/vault/kubernetes-external-vault)
+- [Kubernetes Auth Method](https://www.vaultproject.io/docs/auth/kubernetes)
