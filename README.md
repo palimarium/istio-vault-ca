@@ -32,8 +32,8 @@ In this tutorial, we will build the following architecture:
 
 # Setup
 
-## 1) [Create Hashicorp Vault Cluster](https://github.com/kelseyhightower/serverless-vault-with-cloud-run#tutorial){:target="_blank"}
-<br/>
+## 1) [Create Hashicorp Vault Cluster](https://github.com/kelseyhightower/serverless-vault-with-cloud-run#tutorial)
+
 
 ## 2) Create GKE Clusters
 
@@ -41,6 +41,8 @@ In this tutorial, we will build the following architecture:
 ```bash
 my@localhost:~$./1-create-gke-clusters.sh
 ```
-<br/>
 
-## 3) [Connect GKE clusters with External Vault](k8s-external-vault.md){:target="_blank"}
+
+## 3) [Connect GKE clusters with External Vault](k8s-external-vault.md)
+
+## 4)  Configure PKI secrets engine
