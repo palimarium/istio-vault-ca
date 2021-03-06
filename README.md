@@ -45,4 +45,15 @@ my@localhost:~$./1-create-gke-clusters.sh
 
 ## 3) [Connect GKE clusters with External Vault](k8s-external-vault.md)
 
-## 4) [Configure PKI secrets engine](https://gist.github.com/palimarium/3a0c7a1026f0789f7ce1d7f2689665f9)
+## 4) [Configure Vault PKI secrets engine](https://gist.github.com/palimarium/3a0c7a1026f0789f7ce1d7f2689665f9)
+
+## 5) [Deploy Cert Manager](cert-manager-setup.md) 
+
+## 6) Install cert-manager-istio-csr
+
+```bash
+
+```
+## 7) [Multicluster Istio installation](https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/)
+
+## 8) [Deploy the HelloWorld application](https://istio.io/latest/docs/setup/install/multicluster/verify/)
