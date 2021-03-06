@@ -45,4 +45,4 @@ my@localhost:~$./1-create-gke-clusters.sh
 
 ## 3) [Connect GKE clusters with External Vault](k8s-external-vault.md)
 
-## 4)  Configure PKI secrets engine
+## 4) [Configure PKI secrets engine](https://gist.github.com/palimarium/3a0c7a1026f0789f7ce1d7f2689665f9)
