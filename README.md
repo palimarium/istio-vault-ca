@@ -1,4 +1,4 @@
-# Istio1.9 and HashicorpVault CA Integration
+# Multicluster Istio1.9 and Hashicorp Vault CA Integration
 
 ## Introduction
 
@@ -49,11 +49,8 @@ my@localhost:~$./1-create-gke-clusters.sh
 
 ## 5) [Deploy Cert Manager](cert-manager-setup.md) 
 
-## 6) Install cert-manager-istio-csr
+## 6) [Install Cert Manager istio-csr](istio-csr-setup.md)
 
-```bash
-
-```
 ## 7) [Multicluster Istio installation](https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/)
 
 ## 8) [Deploy the HelloWorld application](https://istio.io/latest/docs/setup/install/multicluster/verify/)
