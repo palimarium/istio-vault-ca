@@ -8,8 +8,10 @@ issuers](https://cert-manager.io/docs/concepts/issuer).
 
 
 ---
+<br> 
 
 ## Installation
+<br> 
 
 Firstly, [cert-manager must be
 installed](https://cert-manager.io/docs/installation/) in your cluster. An
@@ -22,7 +24,7 @@ Next, install the cert-manager-istio-csr into the cluster, configured to use
 the Issuer deployed. The Issuer must reside in the same namespace as that
 configured by `-c, --certificate-namespace`, which is `istio-system` by default.
 
-
+<br> 
 
 ```bash
 $ helm repo add jetstack https://charts.jetstack.io
@@ -34,6 +36,8 @@ $ helm --kube-context="${CTX_CLUSTER1}" install -n cert-manager cert-manager-ist
 # Cluster 2
 $ helm --kube-context="${CTX_CLUSTER2}" install -n cert-manager cert-manager-istio-csr jetstack/cert-manager-istio-csr --set agent.clusterID=cluster2 --set certificate.name=vault-istio-ca2-issuer
 ```
+
+<br> 
 
 Finally, install istio.
 
@@ -51,7 +55,9 @@ configuration changes within
 required in order for the CA Server to be disabled in istiod, ensure istio
 workloads request certificates from the cert-manager agent, and the istiod
 certificates and keys are mounted in from the Certificate created earlier.
-The istio config include also the *`multiCluster`* config where we have to set the `meshID`, `clusterName` and the `network`.
+<br> 
+<br> 
+The istio config file include also the *`multiCluster`* config where we have to set the `meshID`, `clusterName` and the `network`.
 
 ```bash
 
@@ -65,6 +71,8 @@ spec:
         clusterName: cluster1
       network: network1
 ```
+
+<br> 
 
 # References
 
