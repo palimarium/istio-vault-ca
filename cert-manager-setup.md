@@ -157,3 +157,9 @@ The specification defines the signing endpoint and the authentication endpoint a
 * `spec.vault.auth.kubernetes.role` sets the Vault Kubernetes role to `issuer`
 * `spec.vault.auth.kubernetes/secretRef.name` sets the secret for the Kubernetes service account
 * `spec.vault.auth.kubernetes/secretRef.key` sets the type to `token`.
+
+
+# References
+
+- [Deploy Cert Manager](https://learn.hashicorp.com/tutorials/vault/kubernetes-cert-manager#deploy-cert-manager)
+- [Cert manager Vault](https://cert-manager.io/docs/configuration/vault/)

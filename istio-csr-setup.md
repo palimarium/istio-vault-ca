@@ -65,3 +65,7 @@ spec:
         clusterName: cluster1
       network: network1
 ```
+
+# References
+
+- [Istio CSR](https://github.com/cert-manager/istio-csr)
