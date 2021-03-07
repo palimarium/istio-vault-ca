@@ -70,8 +70,12 @@ When you configured Vault's Kubernetes authentication a Kubernetes service accou
 Create a service account named `vault-issuer` within the istio-system namespace.
 
 ```bash
-$  kubectl create serviceaccount vault-issuer -n istio-system
+$  kubectl --context="${CTX_CLUSTER1}" create serviceaccount vault-issuer -n istio-system
 serviceaccount/vault-issuer created
+
+$  kubectl --context="${CTX_CLUSTER2}" create serviceaccount vault-issuer -n istio-system
+serviceaccount/vault-issuer created
+
 ```
 
 The service account generated a secret that is required by the Issuer.
@@ -91,7 +95,9 @@ The issuer secret is displayed here as the secret prefixed with `issuer-token`.
 Create a variable named `ISSUER_SECRET_REF` to capture the secret name.
 
 ```bash
-ISSUER_SECRET_REF=$(kubectl get serviceaccount vault-issuer -n istio-system -o json | jq -r ".secrets[].name")
+ISSUER_SECRET_REF=$(kubectl --context="${CTX_CLUSTER1}" get serviceaccount vault-issuer -n istio-system -o json | jq -r ".secrets[].name")
+
+ISSUER_SECRET_REF=$(kubectl --context="${CTX_CLUSTER2}" get serviceaccount vault-issuer -n istio-system -o json | jq -r ".secrets[].name")
 ```
 
 Create an Issuer, named `vault-istio-ca-issuer`, that defines Vault as a certificate issuer.
@@ -99,7 +105,7 @@ Create an Issuer, named `vault-istio-ca-issuer`, that defines Vault as a certifi
 > Cluster 1
 
 ```bash
-cat <<EOF | kubectl apply -f -
+cat <<EOF | kubectl --context="${CTX_CLUSTER1}" apply -f -
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
@@ -122,7 +128,7 @@ EOF
 > Cluster 2
 
 ```bash
-cat <<EOF | kubectl apply -f -
+cat <<EOF | kubectl --context="${CTX_CLUSTER2}" apply -f -
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:

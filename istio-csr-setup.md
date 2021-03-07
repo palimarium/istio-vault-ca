@@ -47,7 +47,7 @@ $ istioctl --context="${CTX_CLUSTER2}" install -f resources/istio-config-cluster
 
 Istio must be installed using the IstioOperator
 configuration changes within
-[`/resources/istio-config-x.yaml`](/resources/istio-config-1.9.1.yaml). These changes are
+[`resources/istio-config-x.yaml`](resources/istio-config-1.9.1.yaml). These changes are
 required in order for the CA Server to be disabled in istiod, ensure istio
 workloads request certificates from the cert-manager agent, and the istiod
 certificates and keys are mounted in from the Certificate created earlier.
