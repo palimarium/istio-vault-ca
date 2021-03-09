@@ -72,8 +72,115 @@ $ resources/gen-eastwest-gateway.sh \
     --mesh mesh1 --cluster cluster1 --network network1 | \
     istioctl --context="${CTX_CLUSTER1}" install -y -f -
 
+$ resources/gen-eastwest-gateway.sh \
+    --mesh mesh1 --cluster cluster2 --network network2 | \
+    istioctl --context="${CTX_CLUSTER2}" install -y -f -    
+
 ```
 
 
 
 ## 8) [Deploy the HelloWorld application](https://istio.io/latest/docs/setup/install/multicluster/verify/)
+
+## 9) Verifying Cross-Cluster Traffic & Workload Certificates
+
+``` bash
+
+❯ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
+    "$(kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l \
+    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    -- curl -sS helloworld.sample:5000/hello
+
+
+Hello version: v1, instance: helloworld-v1-5b75657f75-dqgzs
+
+Hello version: v2, instance: helloworld-v2-7855866d4f-mk5zp
+```
+
+```bash
+
+$ istioctl proxy-config secret sleep-64d7d56698-lfc9z -n sample -o json | \
+jq '.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytes' | \
+sed 's/"//g' | base64 --decode | openssl x509 -noout -text
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            72:3f:1f:8a:58:67:2a:bb:80:e6:f4:9e:d5:2d:13:03:b3:59:49:93
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN = Istio-ca Intermediate Authority1
+        Validity
+            Not Before: Mar  9 20:47:38 2021 GMT
+            Not After : Mar 10 20:48:08 2021 GMT
+        Subject: 
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (2048 bit)
+                Modulus:
+                    00:b4:b5:ec:e6:85:69:9e:4d:da:20:98:1d:ea:33:
+                    39:89:69:24:c9:0d:2e:0a:18:80:6e:e4:0f:d6:8b:
+                    d5:16:ef:75:b9:5a:44:9a:12:f6:7a:7d:52:7b:27:
+                    7c:e3:3d:d5:3f:61:37:ee:43:78:b6:5f:5b:07:68:
+                    f4:a5:83:68:65:ee:38:97:9e:20:4e:d2:79:32:64:
+                    8c:95:42:25:f3:b7:23:5e:6c:64:f2:88:3b:b0:c4:
+                    81:4c:79:6c:93:19:79:d8:35:ba:06:0f:a1:5e:e3:
+                    56:b3:08:3e:4b:f8:51:26:65:15:e6:59:20:e9:15:
+                    c8:b5:9c:ea:c2:84:65:04:4c:1b:3a:89:58:75:b9:
+                    34:db:e7:cc:bc:58:ba:b7:8a:7c:4d:1a:59:eb:d8:
+                    f7:a8:84:7e:f1:8e:fa:ca:84:cd:f4:a9:2f:d8:9e:
+                    97:8c:61:54:e3:71:b9:7f:18:3a:3c:03:4f:55:c9:
+                    64:bf:7b:52:d5:47:33:00:5a:aa:b1:51:81:80:51:
+                    69:e5:8e:3e:9b:71:a3:e4:bc:bc:66:99:4b:88:dc:
+                    8d:90:4b:a6:8c:3d:e9:69:d2:ba:6a:63:51:30:ce:
+                    2b:24:71:7d:70:aa:25:ee:bf:5d:b3:8f:8e:49:b7:
+                    b9:c7:21:7c:e2:4d:64:82:f5:37:e8:f0:ef:c2:4c:
+                    1d:d3
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment, Key Agreement
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 Subject Key Identifier: 
+                CD:92:C2:8E:B2:43:CB:21:44:7C:25:DB:91:52:F4:0B:F2:D6:43:F2
+            X509v3 Authority Key Identifier: 
+                keyid:60:F0:BF:BD:D9:4A:AB:4A:96:01:FD:67:82:74:64:A2:35:B4:BB:57
+
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/sample/sa/sleep
+
+
+
+$ istioctl proxy-config secret sleep-64d7d56698-tb5gh -n sample -o json | \
+jq '.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytes' | \
+sed 's/"//g' | base64 --decode | openssl x509 -noout -text
+
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            54:14:82:4b:40:1e:4e:a1:d2:59:8f:65:9b:19:0e:a4:6f:de:42:e4
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN = Istio-ca Intermediate Authority2
+        Validity
+            Not Before: Mar  9 20:47:38 2021 GMT
+            Not After : Mar 10 20:48:08 2021 GMT
+        Subject: 
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment, Key Agreement
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 Subject Key Identifier: 
+                4D:FA:40:E7:BC:68:D2:F3:71:A7:6D:68:A1:53:D9:74:0D:02:D9:F2
+            X509v3 Authority Key Identifier: 
+                keyid:F4:CD:09:38:E2:C2:2E:12:7A:A0:76:CB:F8:54:BB:D3:CE:E6:B5:4B
+
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/sample/sa/sleep
+    Signature Algorithm: sha256WithRSAEncryption
+```
