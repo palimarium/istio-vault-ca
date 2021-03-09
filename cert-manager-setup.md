@@ -122,6 +122,17 @@ ISSUER_SECRET_REF=$(kubectl --context="${CTX_CLUSTER2}" get serviceaccount vault
 
 Create an Issuer, named `vault-istio-ca-issuer`, that defines Vault as a certificate issuer.
 
+
+`If you deployed Vault by using Kelsey How to, this is how to get the `
+ `VAULT_SERVICE_URL=$(gcloud run services describe vault-server \`
+ ` --platform managed \`
+ ` --region xx-xxxx1 \`
+ ` --format 'value(status.url)')`
+
+ `ex. VAULT_SERVICE_URL=https://vault-server-XXXXXXX-uw.a.run.app`
+
+
+
 > Cluster 1
 
 ```bash
@@ -133,7 +144,7 @@ metadata:
   namespace: istio-system
 spec:
   vault:
-    server: https://vault-server-XXXXXX-uw.a.run.app
+    server: $VAULT_SERVICE_URL
     path: pki_int1/sign/istio-ca1
     auth:
       kubernetes:
@@ -156,7 +167,7 @@ metadata:
   namespace: istio-system
 spec:
   vault:
-    server: https://vault-server-XXXXXX-uw.a.run.app
+    server: $VAULT_SERVICE_URL
     path: pki_int2/sign/istio-ca2
     auth:
       kubernetes:
