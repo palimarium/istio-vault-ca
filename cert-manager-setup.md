@@ -153,7 +153,7 @@ spec:
         secretRef:
           name: $ISSUER_SECRET_REF
           key: token
-EOF 
+EOF
 ```
 
 > Cluster 2
@@ -188,6 +188,21 @@ The specification defines the signing endpoint and the authentication endpoint a
 * `spec.vault.auth.kubernetes.role` sets the Vault Kubernetes role to `issuer`
 * `spec.vault.auth.kubernetes/secretRef.name` sets the secret for the Kubernetes service account
 * `spec.vault.auth.kubernetes/secretRef.key` sets the type to `token`.
+
+
+## Verifying the issuer Deployment
+
+Once the Vault issuer has been deployed, it will be marked as ready if the configuration is valid. 
+
+```bash
+$ kubectl get issuers -n istio-system -o wide
+NAMESPACE      NAME                     READY   STATUS           AGE
+istio-system   vault-istio-ca1-issuer   True    Vault verified   114s
+```
+
+Certificates are now ready to be requested by using the Vault issuer named `vault-istio-ca-issuer` within the `istio-system` namespace.
+
+
 
 <br> 
 <br> 
