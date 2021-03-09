@@ -202,3 +202,450 @@ Certificate:
                 URI:spiffe://cluster.local/ns/sample/sa/sleep
     Signature Algorithm: sha256WithRSAEncryption
 ```
+
+## 10) Check the endpoints discovered by the Istio control plane 
+
+``` bash
+
+❯ kubectl --namespace=istio-system exec -c discovery $(kubectl --namespace=istio-system get pods --no-headers -l app=istiod | awk '{print $1}') -- curl --max-time 10 -s http://127.0.0.1:8080/debug/endpointShardz
+
+{
+  "cert-manager-istio-csr.cert-manager.svc.cluster.local": {
+   "cert-manager": {
+    "Shards": {
+     "cluster1": [
+      {
+       "Labels": {
+        "app": "cert-manager-istio-csr",
+        "pod-template-hash": "6d4f56c5fb",
+        "topology.istio.io/cluster": "cluster1",
+        "topology.kubernetes.io/region": "europe-west2",
+        "topology.kubernetes.io/zone": "europe-west2-a"
+       },
+       "Address": "10.100.2.7",
+       "ServicePortName": "web",
+       "EnvoyEndpoint": {
+        "HostIdentifier": {
+         "Endpoint": {
+          "address": {
+           "Address": {
+            "SocketAddress": {
+             "address": "10.100.2.7",
+             "PortSpecifier": {
+              "PortValue": 6443
+             }
+            }
+           }
+          }
+         }
+        },
+        "metadata": {
+         "filter_metadata": {
+          "envoy.transport_socket_match": {
+           "tlsMode": "disabled"
+          },
+          "istio": {
+           "network": "network1",
+           "workload": "cert-manager-istio-csr;cert-manager;;"
+          }
+         }
+        },
+        "load_balancing_weight": {
+         "value": 1
+        }
+       },
+       "ServiceAccount": "spiffe://cluster.local/ns/cert-manager/sa/cert-manager-istio-csr",
+       "Network": "network1",
+       "Locality": {
+        "Label": "europe-west2/europe-west2-a/",
+        "ClusterID": "cluster1"
+       },
+       "EndpointPort": 6443,
+       "LbWeight": 0,
+       "TLSMode": "disabled",
+       "Namespace": "cert-manager",
+       "WorkloadName": "cert-manager-istio-csr",
+       "TunnelAbility": 0
+      }
+     ],
+     "cluster2": [
+      {
+       "Labels": {
+        "app": "cert-manager-istio-csr",
+        "pod-template-hash": "559b8786b5",
+        "topology.istio.io/cluster": "cluster2",
+        "topology.kubernetes.io/region": "us-central1",
+        "topology.kubernetes.io/zone": "us-central1-a"
+       },
+       "Address": "10.104.0.14",
+       "ServicePortName": "web",
+       "EnvoyEndpoint": {
+        "HostIdentifier": {
+         "Endpoint": {
+          "address": {
+           "Address": {
+            "SocketAddress": {
+             "address": "10.104.0.14",
+             "PortSpecifier": {
+              "PortValue": 6443
+             }
+            }
+           }
+          }
+         }
+        },
+        "metadata": {
+         "filter_metadata": {
+          "envoy.transport_socket_match": {
+           "tlsMode": "disabled"
+          },
+          "istio": {
+           "network": "network2",
+           "workload": "cert-manager-istio-csr;cert-manager;;"
+          }
+         }
+        },
+        "load_balancing_weight": {
+         "value": 1
+        }
+       },
+       "ServiceAccount": "spiffe://cluster.local/ns/cert-manager/sa/cert-manager-istio-csr",
+       "Network": "network2",
+       "Locality": {
+        "Label": "us-central1/us-central1-a/",
+        "ClusterID": "cluster2"
+       },
+       "EndpointPort": 6443,
+       "LbWeight": 0,
+       "TLSMode": "disabled",
+       "Namespace": "cert-manager",
+       "WorkloadName": "cert-manager-istio-csr",
+       "TunnelAbility": 0
+      }
+     ]
+    },
+    "ServiceAccounts": {
+     "spiffe://cluster.local/ns/cert-manager/sa/cert-manager-istio-csr": {}
+    }
+   }
+  },
+  "cert-manager-webhook.cert-manager.svc.cluster.local": {
+   "cert-manager": {
+    "Shards": {
+     "cluster1": [
+      {
+       "Labels": {
+        "app": "webhook",
+        "app.kubernetes.io/component": "webhook",
+        "app.kubernetes.io/instance": "cert-manager",
+        "app.kubernetes.io/managed-by": "Helm",
+        "app.kubernetes.io/name": "webhook",
+        "helm.sh/chart": "cert-manager-v1.2.0",
+        "pod-template-hash": "5f59d4c7bd",
+        "topology.istio.io/cluster": "cluster1",
+        "topology.kubernetes.io/region": "europe-west2",
+        "topology.kubernetes.io/zone": "europe-west2-a"
+       },
+       "Address": "10.100.0.6",
+       "ServicePortName": "https",
+       "EnvoyEndpoint": {
+        "HostIdentifier": {
+         "Endpoint": {
+          "address": {
+           "Address": {
+            "SocketAddress": {
+             "address": "10.100.0.6",
+             "PortSpecifier": {
+              "PortValue": 10250
+             }
+            }
+           }
+          }
+         }
+        },
+        "metadata": {
+         "filter_metadata": {
+          "envoy.transport_socket_match": {
+           "tlsMode": "disabled"
+          },
+          "istio": {
+           "network": "network1",
+           "workload": "cert-manager-webhook;cert-manager;;"
+          }
+         }
+        },
+        "load_balancing_weight": {
+         "value": 1
+        }
+       },
+       "ServiceAccount": "spiffe://cluster.local/ns/cert-manager/sa/cert-manager-webhook",
+       "Network": "network1",
+       "Locality": {
+        "Label": "europe-west2/europe-west2-a/",
+        "ClusterID": "cluster1"
+       },
+       "EndpointPort": 10250,
+       "LbWeight": 0,
+       "TLSMode": "disabled",
+       "Namespace": "cert-manager",
+       "WorkloadName": "cert-manager-webhook",
+       "TunnelAbility": 0
+      }
+     ],
+     "cluster2": [
+      {
+       "Labels": {
+        "app": "webhook",
+        "app.kubernetes.io/component": "webhook",
+        "app.kubernetes.io/instance": "cert-manager",
+        "app.kubernetes.io/managed-by": "Helm",
+        "app.kubernetes.io/name": "webhook",
+        "helm.sh/chart": "cert-manager-v1.2.0",
+        "pod-template-hash": "5f59d4c7bd",
+        "topology.istio.io/cluster": "cluster2",
+        "topology.kubernetes.io/region": "us-central1",
+        "topology.kubernetes.io/zone": "us-central1-a"
+       },
+       "Address": "10.104.1.3",
+       "ServicePortName": "https",
+       "EnvoyEndpoint": {
+        "HostIdentifier": {
+         "Endpoint": {
+          "address": {
+           "Address": {
+            "SocketAddress": {
+             "address": "10.104.1.3",
+             "PortSpecifier": {
+              "PortValue": 10250
+             }
+            }
+           }
+          }
+         }
+        },
+        "metadata": {
+         "filter_metadata": {
+          "envoy.transport_socket_match": {
+           "tlsMode": "disabled"
+          },
+          "istio": {
+           "network": "network2",
+           "workload": "cert-manager-webhook;cert-manager;;"
+          }
+         }
+        },
+        "load_balancing_weight": {
+         "value": 1
+        }
+       },
+       "ServiceAccount": "spiffe://cluster.local/ns/cert-manager/sa/cert-manager-webhook",
+       "Network": "network2",
+       "Locality": {
+        "Label": "us-central1/us-central1-a/",
+        "ClusterID": "cluster2"
+       },
+       "EndpointPort": 10250,
+       "LbWeight": 0,
+       "TLSMode": "disabled",
+       "Namespace": "cert-manager",
+       "WorkloadName": "cert-manager-webhook",
+       "TunnelAbility": 0
+      }
+     ]
+    },
+    "ServiceAccounts": {
+     "spiffe://cluster.local/ns/cert-manager/sa/cert-manager-webhook": {}
+    }
+   }
+  },
+  "cert-manager.cert-manager.svc.cluster.local": {
+   "cert-manager": {
+    "Shards": {
+     "cluster1": [
+      {
+       "Labels": {
+        "app": "cert-manager",
+        "app.kubernetes.io/component": "controller",
+        "app.kubernetes.io/instance": "cert-manager",
+        "app.kubernetes.io/managed-by": "Helm",
+        "app.kubernetes.io/name": "cert-manager",
+        "helm.sh/chart": "cert-manager-v1.2.0",
+        "pod-template-hash": "56f5c44b5d",
+        "topology.istio.io/cluster": "cluster1",
+        "topology.kubernetes.io/region": "europe-west2",
+        "topology.kubernetes.io/zone": "europe-west2-a"
+       },
+       "Address": "10.100.1.3",
+       "ServicePortName": "",
+       "EnvoyEndpoint": {
+        "HostIdentifier": {
+         "Endpoint": {
+          "address": {
+           "Address": {
+            "SocketAddress": {
+             "address": "10.100.1.3",
+             "PortSpecifier": {
+              "PortValue": 9402
+             }
+            }
+           }
+          }
+         }
+        },
+        "metadata": {
+         "filter_metadata": {
+          "envoy.transport_socket_match": {
+           "tlsMode": "disabled"
+          },
+          "istio": {
+           "network": "network1",
+           "workload": "cert-manager;cert-manager;;"
+          }
+         }
+        },
+        "load_balancing_weight": {
+         "value": 1
+        }
+       },
+       "ServiceAccount": "spiffe://cluster.local/ns/cert-manager/sa/cert-manager",
+       "Network": "network1",
+       "Locality": {
+        "Label": "europe-west2/europe-west2-a/",
+        "ClusterID": "cluster1"
+       },
+       "EndpointPort": 9402,
+       "LbWeight": 0,
+       "TLSMode": "disabled",
+       "Namespace": "cert-manager",
+       "WorkloadName": "cert-manager",
+       "TunnelAbility": 0
+      }
+     ],
+     "cluster2": [
+      {
+       "Labels": {
+        "app": "cert-manager",
+        "app.kubernetes.io/component": "controller",
+        "app.kubernetes.io/instance": "cert-manager",
+        "app.kubernetes.io/managed-by": "Helm",
+        "app.kubernetes.io/name": "cert-manager",
+        "helm.sh/chart": "cert-manager-v1.2.0",
+        "pod-template-hash": "56f5c44b5d",
+        "topology.istio.io/cluster": "cluster2",
+        "topology.kubernetes.io/region": "us-central1",
+        "topology.kubernetes.io/zone": "us-central1-a"
+       },
+       "Address": "10.104.0.8",
+       "ServicePortName": "",
+       "EnvoyEndpoint": {
+        "HostIdentifier": {
+         "Endpoint": {
+          "address": {
+           "Address": {
+            "SocketAddress": {
+             "address": "10.104.0.8",
+             "PortSpecifier": {
+              "PortValue": 9402
+             }
+            }
+           }
+          }
+         }
+        },
+        "metadata": {
+         "filter_metadata": {
+          "envoy.transport_socket_match": {
+           "tlsMode": "disabled"
+          },
+          "istio": {
+           "network": "network2",
+           "workload": "cert-manager;cert-manager;;"
+          }
+         }
+        },
+        "load_balancing_weight": {
+         "value": 1
+        }
+       },
+       "ServiceAccount": "spiffe://cluster.local/ns/cert-manager/sa/cert-manager",
+       "Network": "network2",
+       "Locality": {
+        "Label": "us-central1/us-central1-a/",
+        "ClusterID": "cluster2"
+       },
+       "EndpointPort": 9402,
+       "LbWeight": 0,
+       "TLSMode": "disabled",
+       "Namespace": "cert-manager",
+       "WorkloadName": "cert-manager",
+       "TunnelAbility": 0
+      }
+     ]
+    },
+    "ServiceAccounts": {
+     "spiffe://cluster.local/ns/cert-manager/sa/cert-manager": {}
+    }
+   }
+  },
+  "default-http-backend.kube-system.svc.cluster.local": {
+   "kube-system": {
+    "Shards": {
+     "cluster1": [
+      {
+       "Labels": {
+        "k8s-app": "glbc",
+        "name": "glbc",
+        "pod-template-hash": "7fd66b8b88",
+        "topology.istio.io/cluster": "cluster1",
+        "topology.kubernetes.io/region": "europe-west2",
+        "topology.kubernetes.io/zone": "europe-west2-a"
+       },
+       "Address": "10.100.2.6",
+       "ServicePortName": "http",
+       "EnvoyEndpoint": {
+        "HostIdentifier": {
+         "Endpoint": {
+          "address": {
+           "Address": {
+            "SocketAddress": {
+             "address": "10.100.2.6",
+             "PortSpecifier": {
+              "PortValue": 8080
+             }
+            }
+           }
+          }
+         }
+        },
+        "metadata": {
+         "filter_metadata": {
+          "envoy.transport_socket_match": {
+           "tlsMode": "disabled"
+          },
+          "istio": {
+           "network": "network1",
+           "workload": "l7-default-backend;kube-system;;"
+          }
+         }
+        },
+        "load_balancing_weight": {
+         "value": 1
+        }
+       },
+       "ServiceAccount": "spiffe://cluster.local/ns/kube-system/sa/default",
+       "Network": "network1",
+       "Locality": {
+        "Label": "europe-west2/europe-west2-a/",
+        "ClusterID": "cluster1"
+       },
+       "EndpointPort": 8080,
+       "LbWeight": 0,
+       "TLSMode": "disabled",
+       "Namespace": "kube-system",
+       "WorkloadName": "l7-default-backend",
+       "TunnelAbility": 0
+      }
+     ],
+
+
+```
