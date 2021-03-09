@@ -99,6 +99,24 @@ Hello version: v2, instance: helloworld-v2-7855866d4f-mk5zp
 
 ```bash
 
+$ kubectl get cm istio-ca-root-cert -o jsonpath="{.data['root-cert\.pem']}" | step certificate inspect -
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 634565633720850014245369823118779079328248785051 (0x6f26e83a297cc63f7be562d409add0c5e996689b)
+    Signature Algorithm: SHA256-RSA
+        Issuer: CN=istio-ca
+        Validity
+            Not Before: Mar 9 15:02:52 2021 UTC
+            Not After : Mar 7 15:03:22 2031 UTC
+        Subject: CN=istio-ca
+        Subject Public Key Info:
+            Public Key Algorithm: RSA
+                Public-Key: (2048 bit)
+                Modulus:
+
+
+
 $ istioctl proxy-config secret sleep-64d7d56698-lfc9z -n sample -o json | \
 jq '.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytes' | \
 sed 's/"//g' | base64 --decode | openssl x509 -noout -text
