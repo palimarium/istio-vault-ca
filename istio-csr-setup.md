@@ -20,7 +20,7 @@ workloads, as well a ready Certificate to serve istiod. Example Issuer and
 istiod Certificate configuration can be found in
 [`./hack/demo/cert-manager-bootstrap-resources.yaml`](./hack/demo/cert-manager-bootstrap-resources.yaml).
 
-2) Next, install the cert-manager-istio-csr into the cluster, configured to use
+2) Next, install the `cert-manager-istio-csr` into the cluster, configured to use
 the Issuer deployed. The Issuer must reside in the same namespace as that
 configured by `-c, --certificate-namespace`, which is `istio-system` by default.
 
