@@ -6,7 +6,10 @@ Jetstack's cert-manager is a Kubernetes add-on that automates the management and
 Create a namespace named `cert-manager` to host the cert-manager.
 
 ```bash
-$ kubectl create namespace cert-manager
+$ kubectl --context="${CTX_CLUSTER1}" create namespace cert-manager
+namespace/cert-manager created
+
+$ kubectl --context="${CTX_CLUSTER2}" create namespace cert-manager
 namespace/cert-manager created
 ```
 
@@ -36,7 +39,14 @@ The results show that the `jetstack` chart repository has retrieved an update.
 Install the cert-manager chart version 1.2.0 in the `cert-manager` namespace.
 
 ```bash
- helm install \
+helm --kube-context="${CTX_CLUSTER1}" install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --version v1.2.0 \
+  --set installCRDs=true
+
+
+helm --kube-context="${CTX_CLUSTER2}" install \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --version v1.2.0 \
