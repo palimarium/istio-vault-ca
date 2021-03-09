@@ -53,4 +53,27 @@ my@localhost:~$./1-create-gke-clusters.sh
 
 ## 7) [Multicluster Istio installation](https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/)
 
+* skip the how to's sections:  `Configure cluster1/cluster2 as a primary`
+
+* **Install the east-west gateway in cluster1/cluster2**, we need to update the script `samples/multicluster/gen-eastwest-gateway.sh`,  in order to change certificate provider to cert-manager istio agent for istio agent:
+
+```bash
+values:
+    global:
+      # Change certificate provider to cert-manager istio agent for istio agent
+      caAddress: cert-manager-istio-csr.cert-manager.svc:443
+      meshID: ${MESH}
+      network: ${NETWORK}
+
+```
+
+```bash
+$ resources/gen-eastwest-gateway.sh \
+    --mesh mesh1 --cluster cluster1 --network network1 | \
+    istioctl --context="${CTX_CLUSTER1}" install -y -f -
+
+```
+
+
+
 ## 8) [Deploy the HelloWorld application](https://istio.io/latest/docs/setup/install/multicluster/verify/)
