@@ -31,10 +31,10 @@ $ helm repo add jetstack https://charts.jetstack.io
 $ helm repo update
 
 # Cluster 1
-$ helm --kube-context="${CTX_CLUSTER1}" install -n cert-manager cert-manager-istio-csr jetstack/cert-manager-istio-csr --set agent.clusterID=cluster1 --set certificate.name=vault-istio-ca1-issuer
+$ helm --kube-context="${CTX_CLUSTER1}" install -n cert-manager cert-manager-istio-csr jetstack/cert-manager-istio-csr --set agent.clusterID=cluster1 --set certificate.name=vault-istio-ca1-issuer --set certificate.preserveCertificateRequests=true --set agent.logLevel=3
 
 # Cluster 2
-$ helm --kube-context="${CTX_CLUSTER2}" install -n cert-manager cert-manager-istio-csr jetstack/cert-manager-istio-csr --set agent.clusterID=cluster2 --set certificate.name=vault-istio-ca2-issuer
+$ helm --kube-context="${CTX_CLUSTER2}" install -n cert-manager cert-manager-istio-csr jetstack/cert-manager-istio-csr --set agent.clusterID=cluster2 --set certificate.name=vault-istio-ca2-issuer --set certificate.preserveCertificateRequests=true --set agent.logLevel=3
 ```
 
 <br> 
