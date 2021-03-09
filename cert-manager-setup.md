@@ -115,9 +115,9 @@ The issuer secret is displayed here as the secret prefixed with `issuer-token`.
 Create a variable named `ISSUER_SECRET_REF` to capture the secret name.
 
 ```bash
-ISSUER_SECRET_REF=$(kubectl --context="${CTX_CLUSTER1}" get serviceaccount vault-issuer -n istio-system -o json | jq -r ".secrets[].name")
+ISSUER1_SECRET_REF=$(kubectl --context="${CTX_CLUSTER1}" get serviceaccount vault-issuer -n istio-system -o json | jq -r ".secrets[].name")
 
-ISSUER_SECRET_REF=$(kubectl --context="${CTX_CLUSTER2}" get serviceaccount vault-issuer -n istio-system -o json | jq -r ".secrets[].name")
+ISSUER2_SECRET_REF=$(kubectl --context="${CTX_CLUSTER2}" get serviceaccount vault-issuer -n istio-system -o json | jq -r ".secrets[].name")
 ```
 
 Create an Issuer, named `vault-istio-ca-issuer`, that defines Vault as a certificate issuer.
@@ -151,7 +151,7 @@ spec:
         mountPath: /v1/auth/kube-demo-cluster-1
         role: issuer-istio-ca1
         secretRef:
-          name: $ISSUER_SECRET_REF
+          name: $ISSUER1_SECRET_REF
           key: token
 EOF
 ```
@@ -174,7 +174,7 @@ spec:
         mountPath: /v1/auth/kube-demo-cluster-2
         role: issuer-istio-ca2
         secretRef:
-          name: $ISSUER_SECRET_REF
+          name: $ISSUER2_SECRET_REF
           key: token
 EOF
 ```
