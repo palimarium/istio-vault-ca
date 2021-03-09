@@ -77,6 +77,16 @@ The cert-manager enables you to define Issuers that interface with the Vault cer
 
 When you configured Vault's Kubernetes authentication a Kubernetes service account, named `issuer`, was granted the policy, named `pki`, to the certificate generation endpoints.
 
+Create a namespace named `istio-system` to host the istio installation.
+
+```bash
+$ kubectl --context="${CTX_CLUSTER1}" create namespace istio-system
+namespace/istio-system created
+
+$ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
+namespace/istio-system created
+```
+
 Create a service account named `vault-issuer` within the istio-system namespace.
 
 ```bash
