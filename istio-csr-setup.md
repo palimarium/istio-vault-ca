@@ -13,14 +13,14 @@ issuers](https://cert-manager.io/docs/concepts/issuer).
 ## Installation
 <br> 
 
-Firstly, [cert-manager must be
+1) Firstly, [cert-manager must be
 installed](https://cert-manager.io/docs/installation/) in your cluster. An
 issuer must be configured, which will be used to sign your certificate
 workloads, as well a ready Certificate to serve istiod. Example Issuer and
 istiod Certificate configuration can be found in
 [`./hack/demo/cert-manager-bootstrap-resources.yaml`](./hack/demo/cert-manager-bootstrap-resources.yaml).
 
-Next, install the cert-manager-istio-csr into the cluster, configured to use
+2) Next, install the cert-manager-istio-csr into the cluster, configured to use
 the Issuer deployed. The Issuer must reside in the same namespace as that
 configured by `-c, --certificate-namespace`, which is `istio-system` by default.
 
@@ -39,14 +39,14 @@ $ helm --kube-context="${CTX_CLUSTER2}" install -n cert-manager cert-manager-ist
 
 <br> 
 
-Finally, install istio.
+3) Finally, install istio.
 
 ```bash
 # Cluster1
 $ istioctl --context="${CTX_CLUSTER1}" install -f resources/istio-config-cluster1-1.9.1.yaml
 
 # Cluster2 
-$ istioctl --context="${CTX_CLUSTER2}" install -f resources/istio-config-cluster1-1.9.1.yaml
+$ istioctl --context="${CTX_CLUSTER2}" install -f resources/istio-config-cluster2-1.9.1.yaml
 ```
 
 Istio must be installed using the IstioOperator
