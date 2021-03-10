@@ -18,7 +18,7 @@ installed](https://cert-manager.io/docs/installation/) in your cluster. An
 issuer must be configured, which will be used to sign your certificate
 workloads, as well a ready Certificate to serve istiod. Example Issuer and
 istiod Certificate configuration can be found in
-[`./hack/demo/cert-manager-bootstrap-resources.yaml`](./hack/demo/cert-manager-bootstrap-resources.yaml).
+[`./hack/demo/cert-manager-bootstrap-resources.yaml`](https://github.com/cert-manager/istio-csr/blob/master/hack/demo/cert-manager-bootstrap-resources.yaml).
 
 2) Next, install the `cert-manager-istio-csr` into the cluster, configured to use
 the Issuer deployed. The Issuer must reside in the same namespace as that
@@ -51,7 +51,7 @@ $ istioctl --context="${CTX_CLUSTER2}" install -f resources/istio-config-cluster
 
 Istio must be installed using the IstioOperator
 configuration changes within
-[`resources/istio-config-x.yaml`](resources/istio-config-1.9.1.yaml). These changes are
+[`resources/istio-config-x.yaml`](resources/istio-config-cluster1-1.9.1.yaml). These changes are
 required in order for the CA Server to be disabled in istiod, ensure istio
 workloads request certificates from the cert-manager agent, and the istiod
 certificates and keys are mounted in from the Certificate created earlier.
