@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This tutorial shows you a full end-to-end example on how to integrate a Vault Certificate Authority (CA) with a multicluster Istio, to issue certificates for workloads in the mesh.
+This tutorial shows you a full end-to-end example on how to integrate a Vault Certificate Authority (CA) with a multicluster Istio, which can be used in order to issue certificates for workloads in the mesh.
 
 
 
