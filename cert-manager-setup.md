@@ -36,20 +36,18 @@ Update Complete. ⎈ Happy Helming!⎈
 
 The results show that the `jetstack` chart repository has retrieved an update.
 
-Install the cert-manager chart version 1.2.0 in the `cert-manager` namespace.
+Install the default(latest) cert-manager chart version in the `cert-manager` namespace.
 
 ```bash
 helm --kube-context="${CTX_CLUSTER1}" install \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
-  --version v1.2.0 \
   --set installCRDs=true
 
 
 helm --kube-context="${CTX_CLUSTER2}" install \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
-  --version v1.2.0 \
   --set installCRDs=true
 ```  
 
@@ -105,12 +103,12 @@ Get all the secrets in the default namespace.
 ```bash
 $ kubectl get secrets
 default-token-mlm2n           kubernetes.io/service-account-token   3      13d
-issuer-token-lmzpj            kubernetes.io/service-account-token   3      47s
+vault-issuer-token-lmzpj            kubernetes.io/service-account-token   3      47s
 sh.helm.release.v1.vault.v1   helm.sh/release.v1                    1      28m
 vault-token-749nd             kubernetes.io/service-account-token   3      28m
 ```
 
-The issuer secret is displayed here as the secret prefixed with `issuer-token`.
+The issuer secret is displayed here as the secret prefixed with `vault-issuer-token`.
 
 Create a variable named `ISSUER_SECRET_REF` to capture the secret name.
 
