@@ -18,8 +18,8 @@ installed](https://cert-manager.io/docs/installation/) in your cluster. An
 issuer must be configured, which will be used to sign your certificate
 workloads.
 
-2) Next, install the `cert-manager-istio-csr` into the cluster, and configure `--set certificate.name=vault-istio-caX-issuer` to use
-the Issuer that we have previously created. The Issuer must reside in the same namespace as that
+2) Next, install the `cert-manager-istio-csr` into the cluster, and configure `--set certificate.name=vault-istio-caX-issuer` to [use
+the Issuer](https://github.com/palimarium/istio-vault-ca/blob/master/cert-manager-setup.md#setting-up-vault-issuers) that we have previously created. The Issuer must reside in the same namespace as that
 configured by `-c, --certificate-namespace`, which is `istio-system` by default.
 
 <br> 
