@@ -188,6 +188,20 @@ The specification defines the signing endpoint and the authentication endpoint a
 * `spec.vault.auth.kubernetes/secretRef.key` sets the type to `token`.
 
 
+> If you are using a different public or self-signed CA, don't forget to include the [CA bundle parameter](https://cert-manager.io/docs/configuration/vault/#deployment).
+> `caBundle` denotes an optional field containing a base64 encoded string of the Certificate Authority to trust the Vault connection. This is typically always required when using an https URL
+
+```bash
+spec:
+  vault:
+    path: pki_int/sign/example-dot-com
+    server: https://vault.local
+    caBundle: <base64 encoded CA Bundle PEM file>
+    auth:
+      ...
+```
+
+
 ## Verifying the issuer Deployment
 
 Once the Vault issuer has been deployed, it will be marked as ready if the configuration is valid. 
