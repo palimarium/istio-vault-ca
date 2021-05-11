@@ -143,6 +143,20 @@ istioctl x create-remote-secret \
 
 ## 9) Verifying Cross-Cluster Traffic & Workload Certificates
 
+
+``` bash
+❯ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
+    "$(kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l \
+    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    -- curl -sS helloworld.sample:5000/hello
+
+Hello version: v2, instance: helloworld-v2-7855866d4f-mk5zp
+
+Hello version: v1, instance: helloworld-v1-5b75657f75-dqgzs
+
+```
+---
+
 ``` bash
 
 ❯ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
