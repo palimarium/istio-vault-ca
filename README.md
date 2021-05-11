@@ -55,7 +55,7 @@ my@localhost:~$./1-create-gke-clusters.sh
 
 * skip the how to's sections:  `Configure cluster1/cluster2 as a primary`
 
-* Set the default network for your clusters
+### Set the default network for your clusters
 
 > If the istio-system namespace is already created, we need to set the cluster’s network there:
 
@@ -72,16 +72,19 @@ kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.
 ```
 
 
-* **Install the east-west gateway in cluster1/cluster2**, we need to update the default script `samples/multicluster/gen-eastwest-gateway.sh`,  in order to change certificate provider to cert-manager, istio agent for istio agent:
+### **Install the east-west gateway in cluster1/cluster2**, we need to update the default script `samples/multicluster/gen-eastwest-gateway.sh`,  in order to change certificate provider to cert-manager, istio agent for istio agent:
 
 
-> values:
->    global:
->      # Change certificate provider to cert-manager istio agent for istio agent
->      caAddress: cert-manager-istio-csr.cert-manager.svc:443
->      meshID: ${MESH}
->      network: ${NETWORK}
+```bash
+ values:
+    global:
+      # Change certificate provider to cert-manager istio agent for istio agent
+      caAddress: cert-manager-istio-csr.cert-manager.svc:443
+      meshID: ${MESH}
+      network: ${NETWORK}
+````
 
+---
 
 ```bash
 $ resources/gen-eastwest-gateway.sh \
@@ -94,7 +97,7 @@ $ resources/gen-eastwest-gateway.sh \
 
 ```
 
-* Expose services in your clusters
+### Expose services in your clusters
 
 > Since the clusters are on separate networks, we need to expose all services (*.local) on the east-west gateway in both clusters. While this gateway is public on the Internet, 
 > services behind it can only be accessed by services with a trusted mTLS certificate and workload ID, just as if they were on the same network.
@@ -109,9 +112,9 @@ resources/expose-services.yaml
 
 ```
 
-* Enable Endpoint Discovery
+### Enable Endpoint Discovery
 
-Install a remote secret in cluster2 that provides access to cluster1’s API server.
+Install a remote secret in `cluster2` that provides access to `cluster1’s` API server.
 
 
 ```bash
@@ -122,7 +125,7 @@ istioctl x create-remote-secret \
 ```
 
 
-Install a remote secret in cluster1 that provides access to cluster2’s API server.
+Install a remote secret in `cluster1` that provides access to `cluster2’s` API server.
 
 ```bash
 istioctl x create-remote-secret \
@@ -132,7 +135,7 @@ istioctl x create-remote-secret \
 ```
 
 
-Congratulations! You successfully installed an Istio mesh across multiple primary clusters on different networks!
+***Congratulations!*** You successfully installed an Istio mesh across multiple primary clusters on different networks!
 
 
 
