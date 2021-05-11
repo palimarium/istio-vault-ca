@@ -53,7 +53,7 @@ my@localhost:~$./1-create-gke-clusters.sh
 
 ## 7) [Multicluster Istio installation](https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/)
 
-* skip the how to's sections:  `Configure cluster1/cluster2 as a primary`
+* skip the [how to's sections](https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/#configure-cluster1-as-a-primary):  `Configure cluster1/cluster2 as a primary`
 
 ### Set the default network for your clusters
 
@@ -72,7 +72,7 @@ kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.
 ```
 
 
-### **Install the east-west gateway in cluster1/cluster2**, we need to update the default script `samples/multicluster/gen-eastwest-gateway.sh`,  in order to change certificate provider to cert-manager, istio agent for istio agent:
+* **Install the east-west gateway in cluster1/cluster2**, we need to update the default script `samples/multicluster/gen-eastwest-gateway.sh`,  in order to change certificate provider to cert-manager, istio agent for istio agent:
 
 
 ```bash
