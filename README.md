@@ -55,17 +55,33 @@ my@localhost:~$./1-create-gke-clusters.sh
 
 * skip the how to's sections:  `Configure cluster1/cluster2 as a primary`
 
-* **Install the east-west gateway in cluster1/cluster2**, we need to update the script `samples/multicluster/gen-eastwest-gateway.sh`,  in order to change certificate provider to cert-manager istio agent for istio agent:
+* Set the default network for your clusters
+
+> If the istio-system namespace is already created, we need to set the cluster’s network there:
 
 ```bash
-values:
-    global:
-      # Change certificate provider to cert-manager istio agent for istio agent
-      caAddress: cert-manager-istio-csr.cert-manager.svc:443
-      meshID: ${MESH}
-      network: ${NETWORK}
+
+kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
+kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
+
+
+kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
+kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
+
 
 ```
+
+
+* **Install the east-west gateway in cluster1/cluster2**, we need to update the default script `samples/multicluster/gen-eastwest-gateway.sh`,  in order to change certificate provider to cert-manager, istio agent for istio agent:
+
+
+> values:
+>    global:
+>      # Change certificate provider to cert-manager istio agent for istio agent
+>      caAddress: cert-manager-istio-csr.cert-manager.svc:443
+>      meshID: ${MESH}
+>      network: ${NETWORK}
+
 
 ```bash
 $ resources/gen-eastwest-gateway.sh \
@@ -77,6 +93,46 @@ $ resources/gen-eastwest-gateway.sh \
     istioctl --context="${CTX_CLUSTER2}" install -y -f -    
 
 ```
+
+* Expose services in your clusters
+
+> Since the clusters are on separate networks, we need to expose all services (*.local) on the east-west gateway in both clusters. While this gateway is public on the Internet, 
+> services behind it can only be accessed by services with a trusted mTLS certificate and workload ID, just as if they were on the same network.
+
+```bash
+
+kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
+resources/expose-services.yaml
+
+kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
+resources/expose-services.yaml
+
+```
+
+* Enable Endpoint Discovery
+
+Install a remote secret in cluster2 that provides access to cluster1’s API server.
+
+
+```bash
+istioctl x create-remote-secret \
+  --context="${CTX_CLUSTER1}" \
+  --name=cluster1 | \
+  kubectl apply -f - --context="${CTX_CLUSTER2}"
+```
+
+
+Install a remote secret in cluster1 that provides access to cluster2’s API server.
+
+```bash
+istioctl x create-remote-secret \
+  --context="${CTX_CLUSTER2}" \
+  --name=cluster2 | \
+  kubectl apply -f - --context="${CTX_CLUSTER1}"
+```
+
+
+Congratulations! You successfully installed an Istio mesh across multiple primary clusters on different networks!
 
 
 
@@ -105,7 +161,7 @@ Certificate:
         Version: 3 (0x2)
         Serial Number: 634565633720850014245369823118779079328248785051 (0x6f26e83a297cc63f7be562d409add0c5e996689b)
     Signature Algorithm: SHA256-RSA
-        Issuer: CN=istio-ca
+        Issuer: CN=istio-ca-vault
         Validity
             Not Before: Mar 9 15:02:52 2021 UTC
             Not After : Mar 7 15:03:22 2031 UTC
