@@ -141,7 +141,7 @@ istioctl x create-remote-secret \
 
 ## 8) [Deploy the HelloWorld application](https://istio.io/latest/docs/setup/install/multicluster/verify/)
 
-## 9) Verifying Cross-Cluster Traffic & Workload Certificates
+## 9) [Verifying Cross-Cluster Traffic](https://istio.io/latest/docs/setup/install/multicluster/verify/#verifying-cross-cluster-traffic) & Workload Certificates
 
 
 ``` bash
